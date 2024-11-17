@@ -158,7 +158,7 @@ export default function Header() {
                                             }
                                             className="inline-flex items-center gap-x-1"
                                         >
-                                            <NavLink href="/the-gentry-way">
+                                            <NavLink href="/findyourtrip">
                                               Trips
                                             </NavLink>
                                         </Popover.Button>
