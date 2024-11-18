@@ -32,7 +32,7 @@ export default async function DestinationPage({ params }: { params: { slug: stri
     <div className={`bg-[#CBBEA4] min-h-screen ${josefinSans.className}`}>
       <Header />
       {/* Hero Section */}
-      <div className="relative h-[50vh] sm:h-[60vh] lg:h-[70vh]">
+      <div className="relative h-[50vh] sm:h-[60vh] lg:h-[70vh] mt-12">
         <Image
           src={destination.heroImage}
           alt={`Beautiful view of ${destination.name}`}

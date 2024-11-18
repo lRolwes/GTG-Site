@@ -48,7 +48,7 @@ export default function ContactUsPage() {
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="relative h-[40vh] sm:h-[50vh] lg:h-[60vh]">
+        <div className="relative h-[40vh] sm:h-[50vh] lg:h-[60vh] mt-12">
           <Image
             src="/contact-hero.jpg"
             alt="Contact us hero image"

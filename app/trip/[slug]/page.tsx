@@ -24,7 +24,7 @@ export default async function TripPage({ params }: { params: { slug: string } })
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="relative h-[50vh] sm:h-[60vh] lg:h-[70vh]">
+        <div className="relative h-[50vh] sm:h-[60vh] lg:h-[70vh] mt-12">
           <Image
             src={trip.mainImage}
             alt={trip.title}

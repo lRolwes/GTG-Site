@@ -5,7 +5,7 @@ export default function ClaimPage() {
   return (
     <>
       <Header />
-      <div className="bg-white text-primary w-full flex flex-col justify-center items-center">
+      <div className="bg-white text-primary w-full flex flex-col justify-center items-center mt-12">
         <main className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 bg-white text-primar flex flex-col justify-center items-center my-[200px]">
           <h1 className="text-3xl font-bold mb-4">Claims Policy</h1>
           <p>

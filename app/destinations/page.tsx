@@ -43,7 +43,7 @@ export default function DestinationsPage() {
     <div className="bg-[#CBBEA4] min-h-screen">
       <Header />
       {/* Hero Section */}
-      <div className="relative h-[40vh] sm:h-[50vh] lg:h-[60vh]">
+      <div className="relative h-[40vh] sm:h-[50vh] lg:h-[60vh] mt-12">
         <Image
           src="/destinations-hero.jpg"
           alt="Various travel destinations"

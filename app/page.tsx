@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-[#CBBEA4]">
       <Header />
-      <main className="flex-grow">
+      <main className="flex-grow mt-12">
         <Hero />
         <AboutSection />
         <CurrentDeals />

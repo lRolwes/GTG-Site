@@ -27,7 +27,7 @@ export default async function TravelTipsPage() {
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="relative h-[40vh] sm:h-[50vh] lg:h-[60vh]">
+        <div className="relative h-[40vh] sm:h-[50vh] lg:h-[60vh] mt-12">
           <Image
             src="/travel-tips-hero.jpg"
             alt="Travel essentials and map"

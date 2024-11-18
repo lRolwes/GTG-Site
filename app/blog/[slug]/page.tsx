@@ -15,7 +15,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-white mt-12">
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
