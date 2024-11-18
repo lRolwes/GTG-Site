@@ -4,9 +4,9 @@ import nodemailer from "nodemailer";
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, subject, message } = await req.json();
+    const { email } = await req.json();
 
-    if (!name || !email || !subject || !message) {
+    if (!email) {
       return NextResponse.json({ error: 'Missing parameters' }, { status: 400 });
     }
 
@@ -27,9 +27,9 @@ export async function POST(req: NextRequest) {
     const mailData = {
       from: MAILGUNUSERNAME,
       to: TOEMAIL,
-      subject: `Message From ${name}`,
-      text: `${subject} \n${message} \nSent from: ${email}`,
-      html: `<div>${subject}</div><div>${message}</div><p>Sent from: ${email}</p>`,
+      subject: `Message From ${email}`,
+      text: `Hi Kim! ${email} would like to subscribe to your newsletter.`,
+      html: `<div><p>Hi Kim!</p><p>${email} would like to subscribe to your newsletter.</p></div>`,
     };
 
     const info = await transporter.sendMail(mailData);

@@ -5,6 +5,7 @@ import Header from '../components/Header'
 import { Footer } from '../components/Footer'
 import { fetchAllTravelTips } from '@/util/travel-tip'
 import { TravelTip } from '../types'
+import { Subscribe } from '../components/Subscribe'
 
 // Map categories to icons
 const categoryIcons = {
@@ -74,30 +75,7 @@ export default async function TravelTipsPage() {
           </div>
         </section>
 
-        {/* Newsletter Signup */}
-        <section className="py-12 sm:py-16 lg:py-20 bg-primary">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">Stay Updated with Travel Tips</h2>
-              <p className="text-xl text-white mb-8">
-                Subscribe to our newsletter for the latest travel tips, destination guides, and exclusive offers.
-              </p>
-              <form className="flex flex-col sm:flex-row justify-center gap-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="px-4 py-2 rounded-full text-gray-700 focus:outline-none focus:ring-2 focus:ring-accent"
-                />
-                <button
-                  type="submit"
-                  className="px-6 py-2 bg-accent text-white rounded-full font-semibold hover:bg-secondary transition duration-300"
-                >
-                  Subscribe
-                </button>
-              </form>
-            </div>
-          </div>
-        </section>
+        <Subscribe />
       </main>
       <Footer />
     </div>
