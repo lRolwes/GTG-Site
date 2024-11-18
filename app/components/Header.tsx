@@ -51,7 +51,7 @@ export default function Header() {
                     <div className="lg:hidden">
                         <Popover.Button className="inline-flex items-center justify-center p-2 rounded-none focus:outline-none focus:ring-2 focus:ring-inset focus:ring-secondary">
                             <span className="sr-only">Open menu</span>
-                            <Bars3Icon className="w-6 h-6" aria-hidden="true" />
+                            <Bars3Icon className="w-6 h-6 text-primary" aria-hidden="true" />
                         </Popover.Button>
                     </div>
                     <nav className="hidden text-base font-medium lg:flex lg:flex-1 lg:items-center lg:justify-end pr-10">
@@ -249,7 +249,7 @@ export default function Header() {
                 >
                     <Popover.Panel
                         focus
-                        className="absolute inset-x-0 top-0 z-20 p-2 transition origin-top-right transform lg:hidden"
+                        className="absolute inset-x-0 top-0 z-20 p-2 transition origin-top-right transform lg:hidden "
                     >
                         <div className="bg-white shadow-lg ring-1 ring-gray-300 ring-opacity-5">
                             <div className="p-5">
@@ -259,14 +259,14 @@ export default function Header() {
                                             priority
                                             className="w-auto h-10"
                                             src="/GTG_Logo.png"
-                                            alt="Gentry Homes"
+                                            alt="GTG Vacations"
                                             width={250}
                                             height={250}
                                         />
                                     </Link>
                                     <Popover.Button
                                         ref={popoverButtonRef}
-                                        className="inline-flex items-center justify-center p-2 text-primary hover:text-primary-400 focus:outline-none"
+                                        className="inline-flex items-center justify-center p-2 text-primary hover:text-secondary focus:outline-none"
                                     >
                                         <span className="sr-only">
                                             Close menu
@@ -284,54 +284,16 @@ export default function Header() {
                                     <MobileDropdown
                                         links={[
                                             {
-                                                label: "Communities",
-                                                href: "/communities",
+                                                label: "Who We Are",
+                                                href: "/about",
                                             },
                                             {
-                                                label: "Available Homes",
-                                                href: "/available-homes",
+                                                label: "Pricing",
+                                                href: "/pricing",
                                             },
                                             {
-                                                label: "Floor Plans",
-                                                href: "/plans/location/iowa",
-                                            },
-                                            {
-                                                label: "Your Land Our Plan®",
-                                                href: "/your-land-our-plan/iowa",
-                                            },
-                                        ]}
-                                    >
-                                        Iowa Homes
-                                    </MobileDropdown>
-
-                                    <MobileDropdown
-                                        links={[
-                                            {
-                                                label: "Why Build Offsite",
-                                                href: "/why-build-offsite",
-                                            },
-                                            {
-                                                label: "Our Process",
-                                                href: "/our-process",
-                                            },
-                                            {
-                                                label: "Do's and Don'ts of Building Offsite",
-                                                href: "/guide",
-                                            },
-                                        ]}
-                                    >
-                                        Your Land Our Plan®
-                                    </MobileDropdown>
-
-                                    <MobileDropdown
-                                        links={[
-                                            {
-                                                label: "The Gentry Way",
-                                                href: "/the-gentry-way",
-                                            },
-                                            {
-                                                label: "Testimonials",
-                                                href: "/testimonials",
+                                                label: "Travel Tips",
+                                                href: "/traveltips",
                                             },
                                             {
                                                 label: "Blog",
@@ -341,6 +303,35 @@ export default function Header() {
                                     >
                                         About Us
                                     </MobileDropdown>
+
+                                    <MobileDropdown
+                                        links={[
+                                            {
+                                                label: "Find Your Trip",
+                                                href: "/findyourtrip",
+                                            },
+                                            {
+                                                label: "Destinations",
+                                                href: "/destinations",
+                                            },
+                                            {
+                                                label: "All Inclusives",
+                                                href: "/allinclusives",
+                                            },
+                                            {
+                                                label: "Group Trips",
+                                                href: "/grouptrips",
+                                            },
+                                            {
+                                                label: "Cruises",
+                                                href: "/cruises",
+                                            },
+                                        ]}
+                                    >
+                                        Trips
+                                    </MobileDropdown>
+
+                                    
                                 </nav>
                                 <div className="mt-6 ">
                                     <Link href="/contact" className="">
