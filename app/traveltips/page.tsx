@@ -75,7 +75,7 @@ export default async function TravelTipsPage() {
           </div>
         </section>
 
-        <Subscribe />
+        <Subscribe title="Stay Updated with Travel Tips" headline="Subscribe to our newsletter for the latest travel tips, destination guides, and exclusive offers." />
       </main>
       <Footer />
     </div>

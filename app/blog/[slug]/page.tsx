@@ -5,6 +5,7 @@ import { PortableText } from '@portabletext/react'
 import { Calendar, User } from 'lucide-react'
 import Header from '@/app/components/Header'
 import { Footer } from '@/app/components/Footer'
+import { Subscribe } from '@/app/components/Subscribe'
 
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
   const blogPost = await fetchBlogPostBySlug(params.slug)
@@ -54,29 +55,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         </section>
 
         {/* Newsletter Section */}
-        <section className="py-12 sm:py-16 lg:py-20 bg-[#75D8D1]">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl font-bold text-[#23395D] mb-6">Enjoy Our Travel Stories?</h2>
-              <p className="text-xl text-[#23395D] mb-8">
-                Subscribe to our newsletter for more travel inspiration, tips, and exclusive content.
-              </p>
-              <form className="flex flex-col sm:flex-row justify-center gap-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="px-4 py-2 rounded-full text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#23395D]"
-                />
-                <button
-                  type="submit"
-                  className="px-6 py-2 bg-[#23395D] text-white rounded-full font-semibold hover:bg-[#E8791D] transition duration-300"
-                >
-                  Subscribe
-                </button>
-              </form>
-            </div>
-          </div>
-        </section>
+        
+        <Subscribe title="Enjoy Our Travel Stories?" headline="Subscribe to our newsletter for more travel inspiration, tips, and exclusive content." />
       </main>
       <Footer />
     </div>
