@@ -17,7 +17,7 @@ function DealCard({ trip }: { trip: Trip }) {
           href={`/trip/${trip.slug.current}`} 
           className="mt-4 inline-flex items-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-secondary transition duration-150 ease-in-out"
         >
-          Learn More
+          Book Now
         </Link>
       </div>
     </div>

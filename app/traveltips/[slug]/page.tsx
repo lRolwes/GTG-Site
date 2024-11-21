@@ -5,6 +5,19 @@ import { Utensils, Luggage, Plane, Camera, Sun, CreditCard, Heart, Globe } from 
 import Header from '@/app/components/Header'
 import { Footer } from '@/app/components/Footer'
 
+// export async function generateMetadata({ params }: { params: { slug: string } }) {
+//   const travelTip = await fetchTravelTipBySlug(params.slug)
+//   return {
+//     title: travelTip.title,
+//     description: "Read our latest travel tips for travel tips, destination guides, and travel inspiration."
+//   }
+// }
+// export async function generateStaticParams() {
+//   const travelTips = await fetchAllTravelTips()
+//   return travelTips.map((travelTip: TravelTip) => ({
+//     slug: travelTip.slug.current
+//   }))
+// }
 // Map categories to icons and colors
 const categoryConfig = {
   food: { icon: Utensils, label: 'Food & Dining' },

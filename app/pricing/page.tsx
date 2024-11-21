@@ -4,6 +4,10 @@ import { DollarSign, Users, Calendar, CheckCircle } from 'lucide-react'
 import Header from '../components/Header'
 import { Footer } from '../components/Footer'
 
+export const metadata = {
+  title: "Affordable Vacation Packages | GTG Vacations Pricing",
+  description: "Discover the value of free travel planning with GTG Vacations! Our services are completely free, and we are compensated through commissions by the travel providers we book for you."
+}
 export default function PricingPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">

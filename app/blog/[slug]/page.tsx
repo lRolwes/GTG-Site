@@ -1,12 +1,27 @@
-import { fetchBlogPostBySlug } from '@/util/blog'
+import { fetchAllBlogPosts, fetchBlogPostBySlug } from '@/util/blog'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import { PortableText } from '@portabletext/react'
 import { Calendar, User } from 'lucide-react'
 import Header from '@/app/components/Header'
 import { Footer } from '@/app/components/Footer'
-import { Subscribe } from '@/app/components/Subscribe'
+import { BlogPost } from '@/app/types'
 
+//generate static params
+export async function generateStaticParams() {
+  const blogPosts = await fetchAllBlogPosts()
+  return blogPosts.map((post: BlogPost) => ({
+    slug: post.slug.current
+  }))
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const blogPost = await fetchBlogPostBySlug(params.slug)
+  return {
+    title: blogPost.title,
+    description: "Read our latest travel blog posts for travel tips, destination guides, and travel inspiration."
+  }
+}
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
   const blogPost = await fetchBlogPostBySlug(params.slug)
 
@@ -15,7 +30,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-white mt-12">
+    <div className="flex flex-col min-h-screen bg-white">
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
@@ -48,15 +63,36 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         {/* Content Section */}
         <section className="py-12 sm:py-16 lg:py-20">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto prose prose-lg text-[#23395D]">
+            <div className="max-w-3xl mx-auto prose prose-lg text-gray-700">
               <PortableText value={blogPost.body} />
             </div>
           </div>
         </section>
 
         {/* Newsletter Section */}
-        
-        <Subscribe title="Enjoy Our Travel Stories?" headline="Subscribe to our newsletter for more travel inspiration, tips, and exclusive content." />
+        <section className="py-12 sm:py-16 lg:py-20 bg-[#75D8D1]">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-3xl mx-auto text-center">
+              <h2 className="text-3xl font-bold text-[#23395D] mb-6">Enjoy Our Travel Stories?</h2>
+              <p className="text-xl text-[#23395D] mb-8">
+                Subscribe to our newsletter for more travel inspiration, tips, and exclusive content.
+              </p>
+              <form className="flex flex-col sm:flex-row justify-center gap-4">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="px-4 py-2 rounded-full text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#23395D]"
+                />
+                <button
+                  type="submit"
+                  className="px-6 py-2 bg-[#23395D] text-white rounded-full font-semibold hover:bg-[#E8791D] transition duration-300"
+                >
+                  Subscribe
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </div>

@@ -2,7 +2,7 @@ import { client } from './sanity-client';
 
 export async function fetchDestinationBySlug(slug: string) {
   return await client.fetch(
-    `*[_type == "destination" && slug.current == "${slug}"][0]{
+    `*[_type == "destination" && slug.current == "${"/"+slug}"][0]{
       _id,
       slug,
       name,
@@ -35,7 +35,7 @@ export async function fetchDestinationBySlug(slug: string) {
 }
 
 export async function fetchAllDestinations() {
-  const destinations = await client.fetch(
+  return await client.fetch(
     `*[_type == "destination"]{
       _id,
       name,
@@ -45,6 +45,4 @@ export async function fetchAllDestinations() {
       category->
     }`
   );
-  console.log(destinations);
-  return destinations;
 }

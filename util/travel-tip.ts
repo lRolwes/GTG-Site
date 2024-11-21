@@ -8,7 +8,7 @@ export async function fetchTravelTipBySlug(slug: string) {
       slug,
       description,
       "mainImage": mainImage.asset->url,
-      paragraphs,
+      body,
       category
     }`
   );
@@ -21,7 +21,6 @@ export async function fetchTravelTipsByCategory(category: string) {
       title,
       slug,
       description,
-      paragraphs,
       "mainImage": mainImage.asset->url,
       category
     }`

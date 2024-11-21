@@ -12,7 +12,7 @@ export async function fetchCategoryBySlug(slug: string) {
 }
 
 export async function fetchAllCategories() {
-  const categories = await client.fetch(
+  return await client.fetch(
     `*[_type == "category"]{
       _id,
       name,
@@ -20,6 +20,4 @@ export async function fetchAllCategories() {
       description
     }`
   );
-  console.log(categories);
-  return categories;
 } 

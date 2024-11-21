@@ -1,8 +1,8 @@
 import { client } from './sanity-client';
 
 export async function fetchTripBySlug(slug: string) {
-  const trip = await client.fetch(
-    `*[_type == "trip" && slug.current == "${slug}"][0]{
+  return await client.fetch(
+    `*[_type == "trip" && slug.current == "${"/"+slug}"][0]{
       _id,
       title,
       slug,
@@ -18,19 +18,16 @@ export async function fetchTripBySlug(slug: string) {
       destination->
     }`
   );
-  return trip;
 }
 
 export async function fetchTripsByType(type: string) {
-  console.log(type);
-  const trips = await client.fetch( 
+  return await client.fetch(
     `*[_type == "trip" && tripType == "${type}"]{
       _id,
       title,
       slug,
       "mainImage": mainImage.asset->url,
       description,
-      tripType,
       price,
       startDate,
       endDate,
@@ -38,9 +35,7 @@ export async function fetchTripsByType(type: string) {
       destination->
     }`
   );
-  console.log(trips);
-  return trips;
-} 
+}
 
 export async function fetchAllTrips() {
   return await client.fetch(`*[_type == "trip"]{

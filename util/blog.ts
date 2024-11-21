@@ -1,20 +1,20 @@
 import { client } from './sanity-client';
 
 export async function fetchBlogPage() {
-  const blogPage = await client.fetch(
+  return await client.fetch(
     `*[_type == "blogPage"][0]{
       _id,
-      featuredPosts[]{
+      "featuredPosts": featuredPosts[]->{
         _id,
         title,
         slug,
-        author, 
-        publishedAt
+        "mainImage": mainImage.asset->url,
+        author,
+        publishedAt,
+        body
       }
     }`
   );
-  //console.log(blogPage);
-  return blogPage;
 }
 
 export async function fetchBlogPostBySlug(slug: string) {
@@ -32,7 +32,7 @@ export async function fetchBlogPostBySlug(slug: string) {
 }
 
 export async function fetchAllBlogPosts() {
-  const allPosts = await client.fetch(
+  return await client.fetch(
     `*[_type == "blogPost"] | order(publishedAt desc){
       _id,
       title,
@@ -42,6 +42,4 @@ export async function fetchAllBlogPosts() {
       publishedAt
     }`
   );
-  console.log(allPosts);
-  return allPosts;
 } 

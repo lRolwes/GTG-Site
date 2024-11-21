@@ -6,7 +6,13 @@ import { Footer } from '../components/Footer'
 import { fetchBlogPage, fetchAllBlogPosts } from '@/util/blog'
 import { BlogPost } from '../types'
 import { Subscribe } from '../components/Subscribe'
-
+export function generateMetadata() {
+  return {
+    title: "Travel Blog | GTG Vacations Tips, Inspiration, and Insights",
+    description:
+      "Stay up-to-date with the latest travel trends, destination highlights, and insider tips from GTG Vacations. Our blog covers a variety of topics, from expert travel advice to inspirational stories that will spark your wanderlust. Explore unique destinations, hidden gems, and travel hacks that will make your next vacation unforgettable.",
+  };
+}
 export default async function BlogPage() {
   const blogPage = await fetchBlogPage();
   const allPosts = await fetchAllBlogPosts();
@@ -44,7 +50,8 @@ export default async function BlogPage() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-8">Featured Posts</h2>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {allPosts.filter((post: BlogPost) => !blogPage.featuredPosts.map((fp: BlogPost) => fp._id).includes(post._id)).map((post: BlogPost) => (
+              
+              {blogPage.featuredPosts.map((post: BlogPost) => (
                 <FeaturedPostCard key={post._id} post={post} />
               ))}
             </div>
