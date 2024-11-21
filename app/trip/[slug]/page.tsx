@@ -1,24 +1,25 @@
-import {  fetchTripBySlug } from '@/util/trip'
+import {  fetchAllTrips, fetchTripBySlug } from '@/util/trip'
 import Image from 'next/image'
 import { PortableText } from '@portabletext/react'
 import { Calendar, MapPin, DollarSign, Tag } from 'lucide-react'
 import Header from '@/app/components/Header'
 import { Footer } from '@/app/components/Footer'
 import Link from 'next/link'
+import { Trip } from '@/app/types'
 
-// export async function generateMetadata({ params }: { params: { slug: string } }) {
-//   const trip = await fetchTripBySlug(params.slug)
-//   return {
-//     title: trip.title,
-//     description: trip.description
-//   }
-// }
-// export async function generateStaticParams() {
-//   const trips = await fetchAllTrips()
-//   return trips.map((trip: Trip) => ({
-//     slug: trip.slug.current
-//   }))
-// }
+    export async function generateMetadata({ params }: { params: { slug: string } }) {
+      const trip = await fetchTripBySlug(params.slug)
+      return {
+        title: trip.title,
+        description: trip.description
+      }
+    }
+    export async function generateStaticParams() {
+      const trips = await fetchAllTrips()
+      return trips.map((trip: Trip) => ({
+        trip: trip.slug.current
+          }))
+        }
 
 export default async function TripPage({ params }: { params: { slug: string } }) {
   const trip = await fetchTripBySlug(params.slug)

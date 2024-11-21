@@ -4,26 +4,26 @@ import { Josefin_Sans } from 'next/font/google'
 import Header from '@/app/components/Header'
 import { Footer } from '@/app/components/Footer'
 import { Trip } from '@/app/types/trip'
-import { Attraction } from '@/app/types/destination'
-import {  fetchDestinationBySlug } from '@/util/destination'
+import { Attraction, Destination } from '@/app/types/destination'
+import {  fetchAllDestinations, fetchDestinationBySlug } from '@/util/destination'
 import { Palmtree, Umbrella, Music, UtensilsCrossed, MapPin } from 'lucide-react'
 
 
 const josefinSans = Josefin_Sans({ subsets: ['latin'] })
 
-// export async function generateStaticParams() {
-//   const destinations = await fetchAllDestinations()
-//   return destinations.map((destination: Destination) => ({
-//     slug: destination.slug.current
-//   }))
-// }
-// export async function generateMetadata({ params }: { params: { slug: string } }) {
-//   const destination = await fetchDestinationBySlug(params.slug)
-//   return {
-//     title: destination.name,
-//     description: destination.aboutDescription[0]
-//   }
-// }
+export async function generateStaticParams() {
+  const destinations = await fetchAllDestinations()
+  return destinations.map((destination: Destination) => ({
+    desination: destination.slug.current
+  }))
+}
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const destination = await fetchDestinationBySlug(params.slug)
+  return {
+    title: destination.name,
+    description: destination.aboutDescription[0]
+  }
+}
 export default async function DestinationPage({ params }: { params: { slug: string } }) {
   const destination = await fetchDestinationBySlug(params.slug);
   console.log(destination);
