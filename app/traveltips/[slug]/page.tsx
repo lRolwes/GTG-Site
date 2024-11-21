@@ -80,7 +80,7 @@ export default async function TravelTipPage({ params }: { params: { slug: string
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto prose prose-lg text-gray-700">
               {travelTip.paragraphs.map((paragraph: { title: string; content: string }, index: number) => (
-                <div key={index}>
+                <div className="mb-8" key={index}>
                   <h1 className="text-2xl font-bold mb-4">{paragraph.title}</h1>
                   <p>{paragraph.content}</p>
                 </div>
