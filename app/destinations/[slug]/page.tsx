@@ -14,7 +14,7 @@ const josefinSans = Josefin_Sans({ subsets: ['latin'] })
 export async function generateStaticParams() {
   const destinations = await fetchAllDestinations()
   return destinations.map((destination: Destination) => ({
-    desination: destination.slug.current
+    slug: destination.slug.current.split("/")[1]
   }))
 }
 export async function generateMetadata({ params }: { params: { slug: string } }) {
