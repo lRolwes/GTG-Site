@@ -13,15 +13,21 @@ const josefinSans = Josefin_Sans({ subsets: ['latin'] })
 
 export async function generateStaticParams() {
   const destinations = await fetchAllDestinations()
+  console.log('Generating paths for:', destinations.map((d: Destination) => ({
+    slug: d.slug.current,
+    fullPath: `/destinations/${d.slug.current}`
+  })))
+  
   return destinations.map((destination: Destination) => ({
-    slug: destination.slug.current.split("/")[1]
+    slug: destination.slug.current.toString()
   }))
 }
 export async function generateMetadata({ params }: { params: { slug: string } }) {
+  console.log('Generating metadata for slug:', params.slug)
   const destination = await fetchDestinationBySlug(params.slug)
   return {
     title: destination.name,
-    description: destination.aboutDescription[0]
+    description: destination.aboutDescription[0]? destination.aboutDescription[0] : ""
   }
 }
 export default async function DestinationPage({ params }: { params: { slug: string } }) {
@@ -59,11 +65,11 @@ export default async function DestinationPage({ params }: { params: { slug: stri
           <h2 className="text-3xl sm:text-4xl font-bold text-[#E8791D] mb-6">{destination.aboutTitle}</h2>
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
-              {destination.aboutDescription.map((paragraph: string, index: number) => (
+              {destination.aboutDescription? destination.aboutDescription.map((paragraph: string, index: number) => (
                 <p key={index} className="text-lg text-gray-700 mb-4">
                   {paragraph}
                 </p>
-              ))}
+              )) : <></>}
             </div>
             {destination.aboutImage && <div className="relative h-64 sm:h-80 md:h-96">
               <Image
