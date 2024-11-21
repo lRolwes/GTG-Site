@@ -13,17 +13,17 @@ const josefinSans = Josefin_Sans({ subsets: ['latin'] })
 
 export async function generateStaticParams() {
   const destinations = await fetchAllDestinations()
-  console.log('Generating paths for:', destinations.map((d: Destination) => ({
-    slug: d.slug.current,
-    fullPath: `/destinations/${d.slug.current}`
-  })))
+  //console.log('Generating paths for:', destinations.map((d: Destination) => ({
+  //  slug: d.slug.current,
+  //  fullPath: `/destinations/${d.slug.current}`
+  //})))
   
   return destinations.map((destination: Destination) => ({
     slug: destination.slug.current.toString()
   }))
 }
 export async function generateMetadata({ params }: { params: { slug: string } }) {
-  console.log('Generating metadata for slug:', params.slug)
+  //console.log('Generating metadata for slug:', params.slug)
   const destination = await fetchDestinationBySlug(params.slug)
   return {
     title: destination.name,

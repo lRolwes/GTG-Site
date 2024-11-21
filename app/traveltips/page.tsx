@@ -70,7 +70,7 @@ export default async function TravelTipsPage() {
                     title={tip.title}
                     description={tip.description}
                     icon={<IconComponent className="h-8 w-8" />}
-                    link={`/travel-tips/${tip.slug.current}`}
+                    link={`/traveltips/${tip.slug.current}`}
                   />
                 )
               })}

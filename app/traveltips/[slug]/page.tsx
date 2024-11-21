@@ -8,6 +8,8 @@ import { TravelTip } from '@/app/types/travelTip'
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const travelTip = await fetchTravelTipBySlug(params.slug)
+  console.log('Generating metadata for slug:', params.slug)
+  console.log(travelTip)
   return {
     title: travelTip.title,
     description: "Read our latest travel tips for travel tips, destination guides, and travel inspiration."
@@ -15,8 +17,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 export async function generateStaticParams() {
   const travelTips = await fetchAllTravelTips()
+  console.log('Generating paths for:', travelTips.map((t: TravelTip) => ({
+   slug: t.slug.current.toString()
+  })))
+  
   return travelTips.map((travelTip: TravelTip) => ({
-    travelTip: travelTip.slug.current,
+    slug: travelTip.slug.current.toString()
   }))
 }
 

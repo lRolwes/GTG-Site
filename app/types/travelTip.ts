@@ -3,7 +3,7 @@ export interface TravelTip {
   title: string;
   slug: { current: string };
   description: string;
-  body: string[]; // Portable Text
+  paragraphs: string[]; // Portable Text
   mainImage: string;
   category: 'food' | 'packing' | 'flight' | 'photography' | 'beach' | 'budget' | 'health' | 'culture';
 } 

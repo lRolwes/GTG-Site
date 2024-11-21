@@ -2,7 +2,7 @@ import { client } from './sanity-client';
 
 export async function fetchTripBySlug(slug: string) {
   return await client.fetch(
-    `*[_type == "trip" && slug.current == "${"/"+slug}"][0]{
+    `*[_type == "trip" && slug.current == "${slug}"][0]{
       _id,
       title,
       slug,

@@ -8,7 +8,7 @@ export async function fetchTravelTipBySlug(slug: string) {
       slug,
       description,
       "mainImage": mainImage.asset->url,
-      body,
+      paragraphs,
       category
     }`
   );

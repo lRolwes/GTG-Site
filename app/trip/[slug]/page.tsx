@@ -17,9 +17,9 @@ import { Trip } from '@/app/types'
     export async function generateStaticParams() {
       const trips = await fetchAllTrips()
       return trips.map((trip: Trip) => ({
-        trip: trip.slug.current
-          }))
-        }
+        slug: trip.slug.current.toString()
+      }))
+    }
 
 export default async function TripPage({ params }: { params: { slug: string } }) {
   const trip = await fetchTripBySlug(params.slug)
