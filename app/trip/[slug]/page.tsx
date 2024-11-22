@@ -6,20 +6,49 @@ import Header from '@/app/components/Header'
 import { Footer } from '@/app/components/Footer'
 import Link from 'next/link'
 import { Trip } from '@/app/types'
+import type { Metadata } from 'next'
 
-    export async function generateMetadata({ params }: { params: { slug: string } }) {
-      const trip = await fetchTripBySlug(params.slug)
-      return {
-        title: trip.title,
-        description: trip.description
-      }
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const trip = await fetchTripBySlug(params.slug)
+  
+  if (!trip) {
+    return {
+      title: 'Trip Not Found',
     }
-    export async function generateStaticParams() {
-      const trips = await fetchAllTrips()
-      return trips.map((trip: Trip) => ({
-        slug: trip.slug.current.toString()
-      }))
+  }
+
+  return {
+    title: `${trip.title} | GTG Vacations`,
+    description: trip.description,
+    openGraph: {
+      title: trip.title,
+      description: trip.description,
+      images: [
+        {
+          url: trip.mainImage,
+          width: 1200,
+          height: 630,
+          alt: trip.title,
+        }
+      ],
+      type: 'website',
+      siteName: 'GTG Vacations',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: trip.title,
+      description: trip.description,
+      images: [trip.mainImage],
     }
+  }
+}
+
+export async function generateStaticParams() {
+  const trips = await fetchAllTrips()
+  return trips.map((trip: Trip) => ({
+    slug: trip.slug.current.toString()
+  }))
+}
 
 export default async function TripPage({ params }: { params: { slug: string } }) {
   const trip = await fetchTripBySlug(params.slug)
