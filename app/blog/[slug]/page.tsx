@@ -6,6 +6,7 @@ import { Calendar, User } from 'lucide-react'
 import Header from '@/app/components/Header'
 import { Footer } from '@/app/components/Footer'
 import { BlogPost } from '@/app/types'
+import type { Metadata } from 'next'
 
 //generate static params
 export async function generateStaticParams() {
@@ -15,13 +16,42 @@ export async function generateStaticParams() {
   }))
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const blogPost = await fetchBlogPostBySlug(params.slug)
+  
+  if (!blogPost) {
+    return {
+      title: 'Blog Post Not Found',
+    }
+  }
+
   return {
     title: blogPost.title,
-    description: "Read our latest travel blog posts for travel tips, destination guides, and travel inspiration."
+    description: blogPost.excerpt || "Read our latest travel blog posts for travel tips, destination guides, and travel inspiration.",
+    openGraph: {
+      title: blogPost.title,
+      description: blogPost.excerpt || "Read our latest travel blog posts for travel tips, destination guides, and travel inspiration.",
+      images: [
+        {
+          url: blogPost.mainImage,
+          width: 1200,
+          height: 630,
+          alt: blogPost.title,
+        }
+      ],
+      type: 'article',
+      publishedTime: blogPost.publishedAt,
+      authors: [blogPost.author],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: blogPost.title,
+      description: blogPost.excerpt || "Read our latest travel blog posts for travel tips, destination guides, and travel inspiration.",
+      images: [blogPost.mainImage],
+    }
   }
 }
+
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
   const blogPost = await fetchBlogPostBySlug(params.slug)
 
