@@ -24,17 +24,16 @@ export default function FindYourTripContent() {
       console.log(fetchedCategories || "No categories found")
       setCategories(fetchedCategories)
       setTrips(groupTrips)
-      setFilteredTrips(groupTrips)
+      //setFilteredTrips(groupTrips)
     }
     loadData()
   }, [])
 
   useEffect(() => {
-  
     if(selectedType === 'All') {
       setFilteredTrips(trips)
     } else {
-      setFilteredTrips(trips.filter((trip: Trip) => trip.category.name == selectedType))
+      setFilteredTrips(trips.filter((trip: Trip) => trip.category.name === selectedType))
     }
   }, [trips, selectedType])
 

@@ -44,6 +44,7 @@ export async function fetchAllTrips() {
       slug,
       "mainImage": mainImage.asset->url,
       description,
+      category->,
       tripType,
     }`);
 }
