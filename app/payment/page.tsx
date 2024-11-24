@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import PaymentForm from './PaymentForm'
+import PaymentForm from '../components/PaymentForm'
 import Header from '../components/Header'
 import { Footer } from '../components/Footer'
 
