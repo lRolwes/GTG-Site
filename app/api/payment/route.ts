@@ -4,8 +4,24 @@ import crypto from 'crypto'
 
 function encrypt(text: string): string {
   const algorithm = 'aes-256-cbc'
-  const key = Buffer.from(process.env.ENCRYPTION_KEY || '', 'hex')
-  const iv = crypto.randomBytes(32)
+  
+  if (!process.env.ENCRYPTION_KEY) {
+    throw new Error('ENCRYPTION_KEY is not defined in environment variables');
+  }
+  
+  // Log key details for debugging
+  console.log('Key length (hex):', process.env.ENCRYPTION_KEY.length);
+  
+  const key = Buffer.from(process.env.ENCRYPTION_KEY, 'hex');
+  
+  // Log buffer length
+  console.log('Key buffer length (bytes):', key.length);
+  
+  if (key.length !== 32) {
+    throw new Error(`Invalid key length. Expected 32 bytes, got ${key.length} bytes`);
+  }
+  
+  const iv = crypto.randomBytes(16)
   const cipher = crypto.createCipheriv(algorithm, key, iv)
   let encrypted = cipher.update(text, 'utf8', 'hex')
   encrypted += cipher.final('hex')
