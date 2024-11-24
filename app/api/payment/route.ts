@@ -1,21 +1,39 @@
 import { NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
+import crypto from 'crypto'
+
+function encrypt(text: string): string {
+  const algorithm = 'aes-256-cbc'
+  const key = Buffer.from(process.env.ENCRYPTION_KEY || '', 'hex')
+  const iv = crypto.randomBytes(16)
+  const cipher = crypto.createCipheriv(algorithm, key, iv)
+  let encrypted = cipher.update(text, 'utf8', 'hex')
+  encrypted += cipher.final('hex')
+  return iv.toString('hex') + ':' + encrypted
+}
 
 export async function POST(request: Request) {
   try {
     const data = await request.json()
 
-    // Create transporter using environment variables
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: true,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    })
+    // Encrypt sensitive data
+    const encryptedCard = encrypt(`${data.cardType}:${data.cardNumber}`)
+    const encryptedExp = encrypt(`${data.expirationMonth}/${data.expirationYear}`)
+    const encryptedCVV = encrypt(data.cvv)
 
+    const MAILGUNPASSWORD = process.env.MAILGUNPASSWORD;
+    const MAILGUNUSERNAME = process.env.MAILGUNUSERNAME;
+    const TOEMAIL = process.env.TOEMAIL;
+
+    const transporter = nodemailer.createTransport({
+      port: 465,
+      host: 'smtp.mailgun.org',
+      auth: {
+        user: MAILGUNUSERNAME,
+        pass: MAILGUNPASSWORD,
+      },
+      secure: true,
+    });
     // Format email content
     const emailContent = `
       New Payment Authorization Received
@@ -41,15 +59,14 @@ export async function POST(request: Request) {
       ${data.address.country}
 
       Card Information:
-      Type: ${data.cardType}
-      Number: **** **** **** ${data.cardNumber.slice(-4)}
-      Expiration: ${data.expirationMonth}/${data.expirationYear}
+      Encrypted Data: ${encryptedCard}
+      Expiration (encrypted): ${encryptedExp}
     `
 
     // Send email
     await transporter.sendMail({
-      from: process.env.SMTP_FROM,
-      to: process.env.PAYMENT_NOTIFICATION_EMAIL,
+      from: MAILGUNUSERNAME,
+      to: TOEMAIL,
       subject: 'New Payment Authorization - GTG Vacations',
       text: emailContent,
     })
