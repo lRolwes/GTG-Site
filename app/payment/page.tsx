@@ -12,7 +12,7 @@ export default function PaymentPage() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Header />
-      <main className="flex-grow py-12">
+      <main className="flex-grow py-12 mt-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto">
             <h1 className="text-3xl font-bold text-[#23395D] mb-6 text-center">
@@ -26,7 +26,6 @@ export default function PaymentPage() {
                     <strong>IMPORTANT - Please Read Carefully:</strong>
                   </p>
                   <ul className="list-disc ml-5 mt-2 text-sm text-yellow-700">
-                    <li>DO NOT FILL THIS OUT IF THE BOOKING AND DEPOSIT FORM HAS NOT BEEN COMPLETED.</li>
                     <li>Complete and Accurate information is REQUIRED to Process This Transaction</li>
                     <li>ALL Information MUST Be Correct</li>
                     <li>If We are UNABLE To Process A Payment Because of Incorrect Information it Could Result in the Lost of Your Vacation Pricing and/or the Cancellation of an Existing Reservation if Final Payment is Due.</li>

@@ -4,23 +4,7 @@ import crypto from 'crypto'
 
 function encrypt(text: string): string {
   const algorithm = 'aes-256-cbc'
-  
-  if (!process.env.ENCRYPTION_KEY) {
-    throw new Error('ENCRYPTION_KEY is not defined in environment variables');
-  }
-  
-  // Log key details for debugging
-  console.log('Key length (hex):', process.env.ENCRYPTION_KEY.length);
-  
-  const key = Buffer.from(process.env.ENCRYPTION_KEY, 'hex');
-  
-  // Log buffer length
-  console.log('Key buffer length (bytes):', key.length);
-  
-  if (key.length !== 32) {
-    throw new Error(`Invalid key length. Expected 32 bytes, got ${key.length} bytes`);
-  }
-  
+  const key = Buffer.from(process.env.ENCRYPTION_KEY || '', 'hex')
   const iv = crypto.randomBytes(16)
   const cipher = crypto.createCipheriv(algorithm, key, iv)
   let encrypted = cipher.update(text, 'utf8', 'hex')
@@ -31,68 +15,120 @@ function encrypt(text: string): string {
 export async function POST(request: Request) {
   try {
     const data = await request.json()
+    console.log('Received payment data:', data)
+
+    // Remove the documents array from the email content if it exists
+    const { documents, ...emailData } = data
+
+    // Validate required fields
+    if (!emailData.cardholderName || !emailData.cardNumber) {
+      return NextResponse.json(
+        { error: 'Missing required payment information' },
+        { status: 400 }
+      )
+    }
 
     // Encrypt sensitive data
     const encryptedCard = encrypt(`${data.cardType}:${data.cardNumber}`)
     const encryptedExp = encrypt(`${data.expirationMonth}/${data.expirationYear}`)
     const encryptedCVV = encrypt(data.cvv)
 
-    const MAILGUNPASSWORD = process.env.MAILGUNPASSWORD;
-    const MAILGUNUSERNAME = process.env.MAILGUNUSERNAME;
-    const TOEMAIL = process.env.TOEMAIL;
+    const emailContent = `
+      New Booking and Payment Authorization
 
+      Person Completing Form:
+      Name: ${emailData.submitterFirstName} ${emailData.submitterLastName}
+      Travel Advisor: ${emailData.advisor}
+
+      Primary Traveler Information:
+      Name: ${emailData.primaryTraveler.firstName} ${emailData.primaryTraveler.middleName} ${emailData.primaryTraveler.lastName}
+      DOB: ${emailData.primaryTraveler.dob}
+      Email: ${emailData.primaryTraveler.email}
+      Phone: ${emailData.primaryTraveler.phone}
+      Phone Type: ${emailData.primaryTraveler.phoneType}
+
+      Additional Travelers:
+      ${emailData.additionalTravelers.map((t: any) => 
+        `${t.firstName} ${t.middleName} ${t.lastName} - DOB: ${t.dob} - Email: ${t.email}`
+      ).join('\n')}
+
+      Travel Selections:
+      ${Object.entries(emailData.travelSelections).map(([traveler, selections]: [string, any]) => 
+        `${traveler}: ${Object.entries(selections)
+          .filter(([_, value]) => value)
+          .map(([key, _]) => key)
+          .join(', ')}`
+      ).join('\n')}
+
+      Special Requests:
+      Excursions: ${emailData.excursions || 'None'}
+      Special Accommodations: ${emailData.specialAccommodations || 'None'}
+
+      Travel Protection: ${emailData.travelProtection}
+
+      Payment Information:
+      Amount: $${emailData.amount.dollars}.${emailData.amount.cents}
+      Payment Type: ${emailData.paymentOption}
+
+      Cardholder Information:
+      Name: ${emailData.cardholderName}
+      Phone: ${emailData.cardholderPhone}
+      
+      Billing Address:
+      ${emailData.billingAddress.street}
+      ${emailData.billingAddress.city}, ${emailData.billingAddress.state} ${emailData.billingAddress.zip}
+
+      Card Information (Encrypted):
+      Card Type: ${data.cardType}
+      Card Data: ${encryptedCard}
+      Expiration: ${encryptedExp}
+      CVV: ${encryptedCVV}
+
+      Agreements:
+      Terms and Conditions: ${emailData.termsAccepted ? 'Accepted' : 'Not Accepted'}
+      Hazardous Materials: ${emailData.hazmatAgreed ? 'Acknowledged' : 'Not Acknowledged'}
+      Airline Schedule Changes: ${emailData.scheduleChangesAgreed ? 'Acknowledged' : 'Not Acknowledged'}
+      Baggage Fees: ${emailData.baggageFeesAgreed ? 'Acknowledged' : 'Not Acknowledged'}
+      Covid-19 Responsibility: ${emailData.covidResponsibilityAgreed ? 'Acknowledged' : 'Not Acknowledged'}
+      
+      Electronic Signature: ${emailData.electronicSignature}
+      Date Signed: ${emailData.dateSigned}
+
+      Documents Uploaded: ${documents ? documents.length : 0} files
+    `
+    console.log('emailContent', emailContent)
+    console.log('Attempting to send email...')
     const transporter = nodemailer.createTransport({
       port: 465,
       host: 'smtp.mailgun.org',
       auth: {
-        user: MAILGUNUSERNAME,
-        pass: MAILGUNPASSWORD,
+        user: process.env.MAILGUNUSERNAME,
+        pass: process.env.MAILGUNPASSWORD,
       },
       secure: true,
-    });
-    // Format email content
-    const emailContent = `
-      New Payment Authorization Received
-
-      Primary Traveler Information:
-      Name: ${data.firstName} ${data.middleInitial || ''} ${data.lastName}
-      Confirmation Number: ${data.confirmationNumber}
-      Travel Advisor: ${data.advisor}
-
-      Payment Information:
-      Amount: $${data.amount.dollars}.${data.amount.cents}
-      Payment Type: ${data.paymentOption}
-
-      Cardholder Information:
-      Name: ${data.cardholderName}
-      Phone: ${data.phone}
-      Email: ${data.email}
-      
-      Billing Address:
-      ${data.address.street}
-      ${data.address.street2 ? data.address.street2 + '\n' : ''}
-      ${data.address.city}, ${data.address.state} ${data.address.zip}
-      ${data.address.country}
-
-      Card Information:
-      Encrypted Data: ${encryptedCard}
-      Expiration (encrypted): ${encryptedExp}
-      CVV (encrypted): ${encryptedCVV}
-    `
-
-    // Send email
-    await transporter.sendMail({
-      from: MAILGUNUSERNAME,
-      to: TOEMAIL,
-      subject: 'New Payment Authorization - GTG Vacations',
-      text: emailContent,
     })
+
+    try {
+      await transporter.sendMail({
+        from: process.env.MAILGUNUSERNAME,
+        to: process.env.TOEMAIL,
+        subject: 'New Booking and Payment Authorization - GTG Vacations',
+        text: emailContent,
+      })
+      console.log('Email sent successfully')
+    } catch (emailError) {
+      console.error('Email sending error:', emailError)
+      return NextResponse.json(
+        { error: 'Failed to send confirmation email' },
+        { status: 500 }
+      )
+    }
 
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Payment processing error:', error)
     return NextResponse.json(
-      { error: 'Failed to process payment' },
+      { error: error instanceof Error ? error.message : 'Failed to process payment' },
       { status: 500 }
     )
   }
