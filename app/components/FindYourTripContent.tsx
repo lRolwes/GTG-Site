@@ -90,7 +90,7 @@ export default function FindYourTripContent() {
         {/* Featured Trips */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4  sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-[#23395D] mb-12 text-center">Featured Group Trips</h2>
+            <h2 className="text-3xl font-bold text-[#23395D] mb-12 text-center">Featured Trips</h2>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {filteredTrips.map((trip: Trip) => (
                 <TripCard key={trip._id} trip={trip} />
