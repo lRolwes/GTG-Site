@@ -12,9 +12,73 @@ function encrypt(text: string): string {
   return iv.toString('hex') + ':' + encrypted
 }
 
+interface TravelSelections {
+  [key: string]: {
+    [key: string]: boolean;
+  };
+}
+
+interface BillingAddress {
+  street: string;
+  city: string;
+  state: string;
+  zip: string;
+}
+
+interface PrimaryTraveler {
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+  dob: string;
+  email: string;
+  phone: string;
+  phoneType: string;
+}
+
+interface AdditionalTraveler {
+  firstName: string;
+  middleName?: string;
+  lastName: string;
+  dob: string;
+  email: string;
+}
+
+interface PaymentData {
+  submitterFirstName: string;
+  submitterLastName: string;
+  advisor: string;
+  primaryTraveler: PrimaryTraveler;
+  additionalTravelers: AdditionalTraveler[];
+  travelSelections: TravelSelections;
+  excursions?: string;
+  specialAccommodations?: string;
+  travelProtection: string;
+  amount: {
+    dollars: string;
+    cents: string;
+  };
+  paymentOption: string;
+  cardholderName: string;
+  cardholderPhone: string;
+  billingAddress: BillingAddress;
+  cardType: string;
+  cardNumber: string;
+  expirationMonth: string;
+  expirationYear: string;
+  cvv: string;
+  termsAccepted: boolean;
+  hazmatAgreed: boolean;
+  scheduleChangesAgreed: boolean;
+  baggageFeesAgreed: boolean;
+  covidResponsibilityAgreed: boolean;
+  electronicSignature: string;
+  dateSigned: string;
+  documents?: any[];
+}
+
 export async function POST(request: Request) {
   try {
-    const data = await request.json()
+    const data: PaymentData = await request.json()
     console.log('Received payment data:', data)
 
     // Remove the documents array from the email content if it exists
@@ -48,7 +112,7 @@ export async function POST(request: Request) {
       Phone Type: ${emailData.primaryTraveler.phoneType}
 
       Additional Travelers:
-      ${emailData.additionalTravelers.map((t: any) => 
+      ${emailData.additionalTravelers.map((t: AdditionalTraveler) => 
         `${t.firstName} ${t.middleName} ${t.lastName} - DOB: ${t.dob} - Email: ${t.email}`
       ).join('\n')}
 

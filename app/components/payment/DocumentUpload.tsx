@@ -11,7 +11,7 @@ export default function DocumentUpload() {
       <div className="space-y-4">
         <p className="text-sm text-gray-600">
           Please Upload a Copy of your Passport or Passport Application (for international travel), 
-          REAL ID, or Driver's License (for domestic travel).
+          REAL ID, or Driver&apos;s License (for domestic travel).
         </p>
         
         <div>

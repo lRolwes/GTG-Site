@@ -17,7 +17,7 @@ export default function Agreements() {
               className="mt-1 h-4 w-4 text-[#23395D] focus:ring-[#75D8D1] border-gray-300 rounded"
             />
             <span className="text-sm text-gray-700">
-              I have received, reviewed and agree to the Travel Vendor/Supplier/Operator "Terms and Conditions" 
+              I have received, reviewed and agree to the Travel Vendor/Supplier/Operator &quot;Terms and Conditions&quot; 
               for the purchase of this travel service/vacation package.
             </span>
           </label>

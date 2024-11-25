@@ -12,8 +12,8 @@ export default function ElectronicSignature() {
         <p className="text-sm text-gray-600">
           I consent to provide an electronic signature rather than a handwritten signature in 
           connection with my Credit Card authorization. I submit my signature by typing my name 
-          below and checking the "I agree" box. I understand that my electronic signatures will 
-          be binding as though I had physically signed this document by hand. I agree that a 
+          below and checking the &quot;I agree&quot; box. I understand that my electronic signatures 
+          will be binding as though I had physically signed this document by hand. I agree that a 
           printout of this authorization may be accepted with the same authority as the original.
         </p>
 
