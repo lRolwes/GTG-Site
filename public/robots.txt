@@ -1,0 +1,7 @@
+User-agent: Googlebot
+Disallow: /privacy
+
+User-agent: *
+Allow: /
+
+Sitemap: https://www.gtgvacations.com/sitemap.xml
