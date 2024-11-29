@@ -164,17 +164,17 @@ export async function POST(request: Request) {
     console.log('Attempting to send email...')
     const transporter = nodemailer.createTransport({
       port: 465,
-      host: 'smtp.mailgun.org',
+      host: 'smtp.gmail.com',
       auth: {
-        user: process.env.MAILGUNUSERNAME,
-        pass: process.env.MAILGUNPASSWORD,
+        user: process.env.USERNAME,
+        pass: process.env.PASSWORD,
       },
       secure: true,
     })
 
     try {
       await transporter.sendMail({
-        from: process.env.MAILGUNUSERNAME,
+        from: process.env.USERNAME,
         to: process.env.TOEMAIL,
         subject: 'New Booking and Payment Authorization - GTG Vacations',
         text: emailContent,

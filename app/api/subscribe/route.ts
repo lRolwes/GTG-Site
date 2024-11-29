@@ -10,22 +10,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing parameters' }, { status: 400 });
     }
 
-    const MAILGUNPASSWORD = process.env.MAILGUNPASSWORD;
-    const MAILGUNUSERNAME = process.env.MAILGUNUSERNAME;
+    const USERNAME = process.env.USERNAME;
+    const PASSWORD = process.env.PASSWORD;
     const TOEMAIL = process.env.TOEMAIL;
 
     const transporter = nodemailer.createTransport({
       port: 465,
-      host: 'smtp.mailgun.org',
+      host: 'smtp.gmail.com',
       auth: {
-        user: MAILGUNUSERNAME,
-        pass: MAILGUNPASSWORD,
+        user: USERNAME,
+        pass: PASSWORD,
       },
       secure: true,
     });
 
     const mailData = {
-      from: MAILGUNUSERNAME,
+      from: USERNAME,
       to: TOEMAIL,
       subject: `Message From ${email}`,
       text: `Hi Kim! ${email} would like to subscribe to your newsletter.`,
