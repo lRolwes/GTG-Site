@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     description: 'Plan your perfect getaway with GTG Vacations. We offer expertly curated travel experiences, from all-inclusive resorts to luxury cruises and group adventures.',
     images: [
       {
-        url: '/og-image.jpg', // Make sure this image exists in your public folder
+        url: '/og-image.png', // Make sure this image exists in your public folder
         width: 1200,
         height: 630,
         alt: 'GTG Vacations - Luxury Travel Experiences',
