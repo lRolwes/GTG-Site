@@ -17,7 +17,88 @@ export const travelSelectionsSchema = z.object({
   other: z.boolean().optional(),
 })
 
-// Main payment form schema
+export interface FileData {
+  name: string;
+  type: string;
+  data: string;
+}
+
+export interface PaymentFormData {
+  // Person completing form
+  submitterFirstName: string;
+  submitterLastName: string;
+  advisor: 'Kim' | 'Other';
+
+  // Primary traveler
+  primaryTraveler: z.infer<typeof travelerSchema> & {
+    email: string;
+    phone: string;
+    phoneType: 'Cell' | 'Home' | 'Work';
+    address: {
+      street: string;
+      city: string;
+      state: string;
+      zip: string;
+    };
+  };
+
+  // Additional travelers (up to 7)
+  additionalTravelers: z.infer<typeof travelerSchema>[];
+
+  // Travel selections for each traveler
+  travelSelections: Record<string, z.infer<typeof travelSelectionsSchema>>;
+
+  // Special requests
+  excursions?: string;
+  specialAccommodations?: string;
+  differentAddress: boolean;
+
+  // Documents
+  documents?: FileData[];
+
+  // Travel protection
+  travelProtection: 'add' | 'decline' | 'more_info';
+
+  // Agreements
+  termsAccepted: boolean;
+  hazmatAgreed: boolean;
+  scheduleChangesAgreed: boolean;
+  baggageFeesAgreed: boolean;
+  covidResponsibilityAgreed: boolean;
+
+  // Payment information
+  cardholderName: {
+    first: string;
+    middle?: string;
+    last: string;
+  };
+  cardholderPhone: string;
+  billingAddress: {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+  };
+  paymentOption: 'Initial Deposit' | 'Pay In Full';
+  paymentMethod: 'Credit Card' | 'Travel Voucher';
+  
+  // Credit card details
+  cardType: 'Visa' | 'MasterCard' | 'Discover' | 'American Express';
+  cardNumber: string;
+  expirationMonth: string;
+  expirationYear: string;
+  cvv: string;
+  amount: {
+    dollars: string;
+    cents: string;
+  };
+
+  // Electronic signature
+  signatureAgreed: boolean;
+  electronicSignature: string;
+  dateSigned: string;
+}
+
 export const paymentSchema = z.object({
   // Person completing form
   submitterFirstName: z.string().min(1, 'First name is required'),
@@ -49,9 +130,11 @@ export const paymentSchema = z.object({
   differentAddress: z.boolean(),
 
   // Documents
-  documents: z.any().optional().transform(val => 
-    val instanceof FileList ? Array.from(val) : []
-  ),
+  documents: z.array(z.object({
+    name: z.string(),
+    type: z.string(),
+    data: z.string()
+  })).optional(),
 
   // Travel protection
   travelProtection: z.enum([

@@ -1,8 +1,39 @@
 import { useFormContext } from 'react-hook-form'
-import type { PaymentFormData } from '../../types/payment'
+import type { PaymentFormData, FileData } from '../../types/payment'
+import { useState } from 'react'
 
 export default function DocumentUpload() {
-  const { register, formState: { errors } } = useFormContext<PaymentFormData>()
+  const { setValue } = useFormContext<PaymentFormData>()
+  const [fileNames, setFileNames] = useState<string[]>([])
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (!files?.length) return
+
+    const fileList = Array.from(files)
+    setFileNames(fileList.map(f => f.name))
+
+    // Convert files to base64
+    const base64Files = await Promise.all(
+      fileList.map(async (file) => {
+        return new Promise<FileData>((resolve) => {
+          const reader = new FileReader()
+          reader.onloadend = () => {
+            resolve({
+              name: file.name,
+              type: file.type,
+              data: reader.result as string
+            })
+          }
+          reader.readAsDataURL(file)
+        })
+      })
+    )
+
+    // Set the value without type casting
+    setValue('documents', base64Files)
+    console.log('Files being set:', base64Files) // Debug log
+  }
 
   return (
     <div className="space-y-6">
@@ -20,15 +51,7 @@ export default function DocumentUpload() {
             type="file"
             multiple
             accept=".pdf,.jpg,.jpeg,.png"
-            {...register('documents', {
-              onChange: (e) => {
-                // Optional: Add any file validation here
-                const files = e.target.files
-                if (files && files.length > 0) {
-                  console.log('Files selected:', files)
-                }
-              }
-            })}
+            onChange={handleFileChange}
             className="mt-1 block w-full text-sm text-gray-500
                      file:mr-4 file:py-2 file:px-4
                      file:rounded-md file:border-0
@@ -36,8 +59,15 @@ export default function DocumentUpload() {
                      file:bg-[#23395D] file:text-white
                      hover:file:bg-[#23395D]/80"
           />
-          {errors.documents && (
-            <p className="mt-1 text-sm text-red-600">{errors.documents.message}</p>
+          {fileNames.length > 0 && (
+            <div className="mt-2">
+              <p className="text-sm text-gray-600">Selected files:</p>
+              <ul className="list-disc ml-5">
+                {fileNames.map((name, i) => (
+                  <li key={i} className="text-sm text-gray-600">{name}</li>
+                ))}
+              </ul>
+            </div>
           )}
         </div>
 
